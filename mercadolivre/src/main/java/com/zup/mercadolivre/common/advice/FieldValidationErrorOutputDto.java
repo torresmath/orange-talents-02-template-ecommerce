@@ -1,4 +1,4 @@
-package com.zup.mercadolivre.validations;
+package com.zup.mercadolivre.common.advice;
 
 public class FieldValidationErrorOutputDto {
 

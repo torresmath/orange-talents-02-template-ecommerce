@@ -1,6 +1,6 @@
-package com.zup.mercadolivre.user.model.controller;
+package com.zup.mercadolivre.user.controller;
 
-import com.zup.mercadolivre.builders.JsonDataBuilder;
+import com.zup.mercadolivre.common.builders.JsonDataBuilder;
 import com.zup.mercadolivre.util.JPAUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -97,6 +97,24 @@ class UserControllerTest {
         );
 
         Assertions.assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("length must be between 6 and 40"));
+    }
+
+    @Test
+    void deveriaDevolver400CasoLoginJaExista() throws Exception {
+        URI uri = new URI("/user");
+
+        String json = new JsonDataBuilder()
+                .keyValue("login", "email@emuso.com")
+                .keyValue("password", "123456")
+                .build();
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
+                .post(uri)
+                .content(json)
+                .contentType(MediaType.APPLICATION_JSON)
+        );
+
+        Assertions.assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("_duplicated_field"));
     }
 
 }

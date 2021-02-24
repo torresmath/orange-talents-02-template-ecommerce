@@ -1,4 +1,4 @@
-package com.zup.mercadolivre.builders;
+package com.zup.mercadolivre.common.builders;
 
 import org.springframework.context.annotation.Profile;
 

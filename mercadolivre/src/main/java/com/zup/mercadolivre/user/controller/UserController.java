@@ -1,7 +1,7 @@
-package com.zup.mercadolivre.user.model.controller;
+package com.zup.mercadolivre.user.controller;
 
 import com.zup.mercadolivre.user.model.User;
-import com.zup.mercadolivre.user.model.controller.form.UserRequest;
+import com.zup.mercadolivre.user.controller.request.UserRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

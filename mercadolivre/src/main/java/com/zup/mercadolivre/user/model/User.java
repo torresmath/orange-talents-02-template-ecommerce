@@ -5,10 +5,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.util.Assert;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -23,25 +20,32 @@ public class User {
 
     @Email
     @NotNull
-    private final String login;
+    @Column(unique = true)
+    private String login;
 
     @NotBlank
     @NotNull
-    private final String password;
+    private String password;
 
     @CreationTimestamp
     private LocalDateTime createDate;
 
+    /**
+     *
+     * @param login string no formato de email
+     * @param password string em texto limpo (sem criptografia)
+     */
     public User(@Email String login, @Length(min = 6) String password) {
 
-        System.out.println("password = " + password);
         Assert.hasText(login, "Login não pode estar vazio");
-//        Assert.state(password.length() >= 6, "Senha precisa ter no mínimo 6 caracteres");
+        Assert.state(password.length() >= 6, "Senha precisa ter no mínimo 6 caracteres");
 
         String encodedPassword = new BCryptPasswordEncoder().encode(password);
         this.login = login;
         this.password = encodedPassword;
     }
 
+    @Deprecated
+    public User() {}
 
 }

@@ -1,4 +1,4 @@
-package com.zup.mercadolivre.validations;
+package com.zup.mercadolivre.common.advice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -19,7 +19,6 @@ public class ValidationErrorHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ValidationErrorOutputDto handle(MethodArgumentNotValidException exception) {
         ValidationErrorOutputDto errorOutputDto = new ValidationErrorOutputDto();
-
 
         exception.getBindingResult().getFieldErrors()
                 .forEach(error -> {

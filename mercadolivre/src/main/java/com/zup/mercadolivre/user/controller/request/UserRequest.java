@@ -1,5 +1,6 @@
-package com.zup.mercadolivre.user.model.controller.form;
+package com.zup.mercadolivre.user.controller.request;
 
+import com.zup.mercadolivre.common.annotations.UniqueValue;
 import com.zup.mercadolivre.user.model.User;
 import org.hibernate.validator.constraints.Length;
 
@@ -10,6 +11,7 @@ public class UserRequest {
 
     @Email
     @NotBlank
+    @UniqueValue(domainClass = User.class, fieldName = "login")
     private final String login;
 
     @Length(min = 6, max = 40)
