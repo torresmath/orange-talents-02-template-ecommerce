@@ -48,4 +48,11 @@ public class User {
     @Deprecated
     public User() {}
 
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

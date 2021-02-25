@@ -1,120 +1,116 @@
 package com.zup.mercadolivre.user.controller;
 
-import com.zup.mercadolivre.common.builders.JsonDataBuilder;
-import com.zup.mercadolivre.util.JPAUtil;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zup.mercadolivre.user.controller.request.UserRequest;
+import com.zup.mercadolivre.user.model.User;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import javax.persistence.EntityManager;
-import java.net.URI;
+import javax.transaction.Transactional;
+import java.util.List;
+
+import static com.zup.mercadolivre.builders.MockMvcBuilder.perform;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureTestDatabase
 @ActiveProfiles("test")
+@Transactional
 class UserControllerTest {
+
+    static final String DEFAULT_LOGIN = "email@emuso.com";
+    static final String DEFAULT_PASSWORD = "senhaemuso";
 
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
     private EntityManager em;
 
-    @BeforeEach
-    public void entityManager() {
-        this.em = JPAUtil.getEntityManager();
-        em.getTransaction().begin();
-    }
-
-    @AfterEach
-    public void rollback() {
-        em.getTransaction().rollback();
-    }
+    @Autowired
+    private ObjectMapper mapper;
 
     @Test
+    @DisplayName("Deveria devolver 200 com informações válidas")
     void deveriaDevolver200() throws Exception {
 
-        URI uri = new URI("/user");
+        UserRequest userRequest = new UserRequest("email@email.com", "123456");
 
-        String json = new JsonDataBuilder()
-                .keyValue("login", "email@email.com")
-                .keyValue("password", "123456")
-                .build();
+        perform("/user", userRequest, 200, mapper, mockMvc);
 
-        mockMvc.perform(MockMvcRequestBuilders
-                .post(uri)
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers
-                .status()
-                .is(200));
+        List<User> query = em.createQuery("select u from User u", User.class).getResultList();
+        User user = query.get(1);
+        assertAll(
+                () -> assertNotNull(query),
+                () -> assertEquals(2, query.size()),
+                () -> assertEquals(userRequest.getLogin(), user.getLogin())
+        );
     }
 
     @Test
+    @DisplayName("Deveria devolver 400 caso login esteja mal formatado")
     void deveriaDevolver400CasoLoginNaoSejaEmail() throws Exception {
 
-        URI uri = new URI("/user");
+        UserRequest userRequest = new UserRequest("emailemail.com", "123456");
 
-        String json = new JsonDataBuilder()
-                .keyValue("login", "emailemail.com")
-                .keyValue("password", "123456")
-                .build();
+        ResultActions resultActions = perform("/user", userRequest, 400, mapper, mockMvc);
 
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
-                .post(uri)
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(MockMvcResultMatchers
-                .status()
-                .is(400));
-
-        Assertions.assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("must be a well-formed email address"));
+        List<User> query = em.createQuery("select u from User u", User.class).getResultList();
+        User user = query.get(0);
+        assertAll(
+                () -> assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("must be a well-formed email address")),
+                () -> assertNotNull(query),
+                () -> assertEquals(1, query.size()),
+                () -> assertNotEquals(userRequest.getLogin(), user.getLogin()),
+                () -> assertEquals(DEFAULT_LOGIN, user.getLogin())
+        );
     }
 
     @Test
+    @DisplayName("Deveria devolver 400 caso senha seja menor que 6 caracteres")
     void deveriaDevolver400CasoSenhaSejaMenorQueSeisCaracteres() throws Exception {
-        URI uri = new URI("/user");
 
-        String json = new JsonDataBuilder()
-                .keyValue("login", "email@email.com")
-                .keyValue("password", "12345")
-                .build();
+        UserRequest userRequest = new UserRequest("email@email.com", "12345");
 
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
-                .post(uri)
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON)
+        ResultActions resultActions = perform("/user", userRequest, 400, mapper, mockMvc);
+
+        List<User> query = em.createQuery("select u from User u", User.class).getResultList();
+        User user = query.get(0);
+        assertAll(
+                () -> assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("length must be between 6 and 40")),
+                () -> assertNotNull(query),
+                () -> assertEquals(1, query.size()),
+                () -> assertNotEquals(userRequest.getLogin(), user.getLogin()),
+                () -> assertEquals(DEFAULT_LOGIN, user.getLogin())
         );
-
-        Assertions.assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("length must be between 6 and 40"));
     }
 
     @Test
+    @DisplayName("Deveria devolver 400 caso login não seja único")
     void deveriaDevolver400CasoLoginJaExista() throws Exception {
-        URI uri = new URI("/user");
 
-        String json = new JsonDataBuilder()
-                .keyValue("login", "email@emuso.com")
-                .keyValue("password", "123456")
-                .build();
+        UserRequest userRequest = new UserRequest(DEFAULT_LOGIN, "123456");
 
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
-                .post(uri)
-                .content(json)
-                .contentType(MediaType.APPLICATION_JSON)
+        ResultActions resultActions = perform("/user", userRequest, 400, mapper, mockMvc);
+
+        List<User> query = em.createQuery("select u from User u", User.class).getResultList();
+        User user = query.get(0);
+        assertAll(
+                () -> assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("_duplicated_field")),
+                () -> assertNotNull(query),
+                () -> assertEquals(1, query.size()),
+                () -> assertEquals(DEFAULT_PASSWORD, user.getPassword())
         );
-
-        Assertions.assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("_duplicated_field"));
     }
 
 }

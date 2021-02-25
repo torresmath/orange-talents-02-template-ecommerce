@@ -27,4 +27,12 @@ public class UserRequest {
 
         return new User(login, password);
     }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
