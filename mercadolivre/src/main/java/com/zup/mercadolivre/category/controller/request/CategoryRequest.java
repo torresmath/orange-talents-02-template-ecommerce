@@ -34,6 +34,10 @@ public class CategoryRequest {
         return new Category(name, parentCategory);
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Nullable
     public Long getIdParent() {
         return idParent;
