@@ -5,7 +5,6 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 public class Category {
@@ -21,9 +20,6 @@ public class Category {
     @ManyToOne
     @Nullable
     private Category parentCategory;
-
-    @OneToMany(mappedBy = "parentCategory")
-    private List<Category> childrenCategory;
 
     public Category(@NotNull @NotBlank String name, @Nullable Category parentCategory) {
         this.name = name;
@@ -44,9 +40,5 @@ public class Category {
     @Nullable
     public Category getParentCategory() {
         return parentCategory;
-    }
-
-    public List<Category> getChildrenCategory() {
-        return childrenCategory;
     }
 }

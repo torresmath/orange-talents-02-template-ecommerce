@@ -52,6 +52,17 @@ public class User implements UserDetails {
     public User() {
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", createDate=" + createDate +
+                '}';
+    }
+
+    //region UserDetails
     public Long getId() {
         return id;
     }
@@ -93,4 +104,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    //endregion
 }
