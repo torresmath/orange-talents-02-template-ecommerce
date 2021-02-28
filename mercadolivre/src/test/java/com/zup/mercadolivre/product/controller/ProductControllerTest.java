@@ -78,7 +78,7 @@ class ProductControllerTest {
         List<ProductDetail> productDetails = em.createQuery("select p from ProductDetail p", ProductDetail.class).getResultList();
 
         assertAll(
-                () -> assertEquals(1, products.size()),
+                () -> assertEquals(2, products.size()),
                 () -> assertEquals(3, productDetails.size())
         );
     }
@@ -105,7 +105,7 @@ class ProductControllerTest {
         assertAll(
                 () -> assertTrue(response.contains("size must be between 3 and 99")),
                 () -> assertTrue(response.contains("must not be empty")),
-                () -> assertTrue(query.isEmpty())
+                () -> assertEquals(1, query.size())
         );
     }
 
@@ -130,7 +130,7 @@ class ProductControllerTest {
         List<Product> query = em.createQuery("select p from Product p", Product.class).getResultList();
         assertAll(
                 () -> assertTrue(response.contains("size must be between 3 and 99")),
-                () -> assertTrue(query.isEmpty())
+                () -> assertEquals(1, query.size())
         );
     }
 
@@ -155,7 +155,7 @@ class ProductControllerTest {
         List<Product> query = em.createQuery("select p from Product p", Product.class).getResultList();
         assertAll(
                 () -> assertTrue(response.contains("must be greater than or equal to 0.01")),
-                () -> assertTrue(query.isEmpty())
+                () -> assertEquals(1, query.size())
         );
     }
 
@@ -177,7 +177,7 @@ class ProductControllerTest {
 
         List<Product> query = em.createQuery("select p from Product p", Product.class).getResultList();
         assertAll(
-                () -> assertEquals( 1, query.size())
+                () -> assertEquals( 2, query.size())
         );
     }
 
@@ -202,7 +202,7 @@ class ProductControllerTest {
         List<Product> query = em.createQuery("select p from Product p", Product.class).getResultList();
         assertAll(
                 () -> assertTrue(response.contains("must be greater than or equal to 0.01")),
-                () -> assertTrue(query.isEmpty())
+                () -> assertEquals(1, query.size())
         );
     }
 

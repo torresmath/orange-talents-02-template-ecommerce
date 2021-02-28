@@ -63,6 +63,10 @@ public class Product {
         this.owner = owner;
     }
 
+    public User getOwner() {
+        return owner;
+    }
+
     @Deprecated
     public Product() {
     }

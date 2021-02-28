@@ -49,10 +49,10 @@ class UserControllerTest {
         perform("/user", userRequest, 200, mapper, mockMvc);
 
         List<User> query = em.createQuery("select u from User u", User.class).getResultList();
-        User user = query.get(1);
+        User user = query.get(2);
         assertAll(
                 () -> assertNotNull(query),
-                () -> assertEquals(2, query.size()),
+                () -> assertEquals(3, query.size()),
                 () -> assertEquals(userRequest.getLogin(), user.getLogin())
         );
     }
@@ -70,7 +70,7 @@ class UserControllerTest {
         assertAll(
                 () -> assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("must be a well-formed email address")),
                 () -> assertNotNull(query),
-                () -> assertEquals(1, query.size()),
+                () -> assertEquals(2, query.size()),
                 () -> assertNotEquals(userRequest.getLogin(), user.getLogin()),
                 () -> assertEquals(DEFAULT_LOGIN, user.getLogin())
         );
@@ -89,7 +89,7 @@ class UserControllerTest {
         assertAll(
                 () -> assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("length must be between 6 and 40")),
                 () -> assertNotNull(query),
-                () -> assertEquals(1, query.size()),
+                () -> assertEquals(2, query.size()),
                 () -> assertNotEquals(userRequest.getLogin(), user.getLogin()),
                 () -> assertEquals(DEFAULT_LOGIN, user.getLogin())
         );
@@ -108,7 +108,7 @@ class UserControllerTest {
         assertAll(
                 () -> assertTrue(resultActions.andReturn().getResponse().getContentAsString().contains("_duplicated_field")),
                 () -> assertNotNull(query),
-                () -> assertEquals(1, query.size()),
+                () -> assertEquals(2, query.size()),
                 () -> assertEquals(DEFAULT_PASSWORD, user.getPassword())
         );
     }
