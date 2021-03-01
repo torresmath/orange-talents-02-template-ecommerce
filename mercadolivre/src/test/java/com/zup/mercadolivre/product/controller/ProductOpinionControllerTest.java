@@ -138,7 +138,7 @@ class ProductOpinionControllerTest {
         ResultActions perform = perform("/product/2/opinion", request, 404, mapper, mockMvc);
 
         List<ProductOpinion> opinions = manager.createQuery("select o from ProductOpinion o", ProductOpinion.class).getResultList();
-        
+
         assertAll(
                 () -> assertEquals(0, opinions.size())
         );

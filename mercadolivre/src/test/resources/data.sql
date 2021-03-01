@@ -3,3 +3,4 @@ INSERT INTO user(login, password, create_date) VALUES ('email@secundario.com', '
 INSERT INTO category(name) VALUES ('categoria-padrao');
 INSERT INTO product(`name`, `value`, `amount`, `description`, `category_id`, `owner_id`, `create_date`)
     VALUES ('produto-padrao', 10.00, 1, 'descricao-padrao', 1, 1, '2021-02-26');
+INSERT INTO product_question(title, product_id, customer_id, create_date) VALUES ('titulo-padrao', 1, 1, '2021-03-01');
