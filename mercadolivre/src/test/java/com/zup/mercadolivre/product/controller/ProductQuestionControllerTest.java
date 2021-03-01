@@ -2,6 +2,7 @@ package com.zup.mercadolivre.product.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zup.mercadolivre.builders.MockMvcBuilder;
+import com.zup.mercadolivre.product.controller.request.ProductQuestionRequest;
 import com.zup.mercadolivre.product.model.ProductQuestion;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

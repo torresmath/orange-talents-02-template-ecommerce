@@ -6,7 +6,6 @@ import com.zup.mercadolivre.product.controller.request.ProductDetailRequest;
 import com.zup.mercadolivre.product.controller.request.ProductRequest;
 import com.zup.mercadolivre.product.model.Product;
 import com.zup.mercadolivre.product.model.ProductDetail;
-import com.zup.mercadolivre.user.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

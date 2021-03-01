@@ -1,9 +1,12 @@
 package com.zup.mercadolivre.product.controller;
 
+import com.zup.mercadolivre.product.Mailing;
+import com.zup.mercadolivre.product.controller.request.ProductQuestionRequest;
 import com.zup.mercadolivre.product.controller.response.ProductQuestionResponse;
 import com.zup.mercadolivre.product.model.Product;
 import com.zup.mercadolivre.product.model.ProductQuestion;
 import com.zup.mercadolivre.user.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +26,9 @@ public class ProductQuestionController {
     @PersistenceContext
     private EntityManager manager;
 
+    @Autowired
+    private Mailing mailing;
+
     @PostMapping
     @Transactional
     public ResponseEntity<List<ProductQuestionResponse>> create(@PathVariable("id") Long idProduct,
@@ -40,13 +46,14 @@ public class ProductQuestionController {
         ProductQuestion productQuestion = request.toModel(product,user);
         manager.persist(productQuestion);
 
+        mailing.send("Dúvida sobre produto", productQuestion.getCustomer(), product.getOwnerEmail(), productQuestion.getTitle());
+
         List<ProductQuestionResponse> questions = manager.createQuery("select q from ProductQuestion q where q.product = :product", ProductQuestion.class)
                 .setParameter("product", product)
                 .getResultList()
                 .stream()
                 .map(ProductQuestionResponse::new)
                 .collect(Collectors.toList());
-
 
         return ResponseEntity.ok(questions);
     }

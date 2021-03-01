@@ -3,8 +3,6 @@ package com.zup.mercadolivre.product.controller.request;
 import com.zup.mercadolivre.product.model.Product;
 import com.zup.mercadolivre.product.model.ProductOpinion;
 import com.zup.mercadolivre.user.model.User;
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.NotThrownAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

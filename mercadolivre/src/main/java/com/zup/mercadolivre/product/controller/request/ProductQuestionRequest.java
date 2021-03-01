@@ -1,4 +1,4 @@
-package com.zup.mercadolivre.product.controller;
+package com.zup.mercadolivre.product.controller.request;
 
 import com.zup.mercadolivre.product.model.Product;
 import com.zup.mercadolivre.product.model.ProductQuestion;
@@ -19,7 +19,6 @@ public class ProductQuestionRequest {
     public ProductQuestionRequest(@NotBlank String title) {
         this.title = title;
     }
-
 
     public ProductQuestion toModel(Product product, User customer) {
 

@@ -67,6 +67,10 @@ public class Product {
         return owner;
     }
 
+    public String getOwnerEmail() {
+        return owner.getLogin();
+    }
+
     @Deprecated
     public Product() {
     }

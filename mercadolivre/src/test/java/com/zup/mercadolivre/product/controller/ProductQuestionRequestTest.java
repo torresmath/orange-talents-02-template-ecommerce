@@ -1,5 +1,6 @@
 package com.zup.mercadolivre.product.controller;
 
+import com.zup.mercadolivre.product.controller.request.ProductQuestionRequest;
 import com.zup.mercadolivre.product.model.Product;
 import com.zup.mercadolivre.product.model.ProductQuestion;
 import com.zup.mercadolivre.user.model.User;
