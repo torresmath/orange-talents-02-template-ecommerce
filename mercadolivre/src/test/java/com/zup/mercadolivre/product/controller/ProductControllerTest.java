@@ -1,6 +1,7 @@
 package com.zup.mercadolivre.product.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zup.mercadolivre.builders.MockMvcBuilder;
 import com.zup.mercadolivre.product.controller.request.ProductDetailRequest;
 import com.zup.mercadolivre.product.controller.request.ProductRequest;
 import com.zup.mercadolivre.product.model.Product;
@@ -26,7 +27,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static com.zup.mercadolivre.builders.MockMvcBuilder.perform;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -72,7 +72,7 @@ class ProductControllerTest {
     @DisplayName("Deveria retornar 200")
     void testDeveriaRetornar200() throws Exception {
 
-        perform("/product", this.productRequest, 200, mapper, mockMvc);
+        new MockMvcBuilder().perform("/product", this.productRequest, 200, mapper, mockMvc);
 
         List<Product> products = em.createQuery("select p from Product p", Product.class).getResultList();
         List<ProductDetail> productDetails = em.createQuery("select p from ProductDetail p", ProductDetail.class).getResultList();
@@ -97,7 +97,7 @@ class ProductControllerTest {
                 1L
         );
 
-        ResultActions resultActions = perform("/product", productRequest, 400, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/product", productRequest, 400, mapper, mockMvc);
 
         String response = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -123,7 +123,7 @@ class ProductControllerTest {
                 999L
         );
 
-        ResultActions resultActions = perform("/product", productRequest, 400, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/product", productRequest, 400, mapper, mockMvc);
 
         String response = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -148,7 +148,7 @@ class ProductControllerTest {
                 1L
         );
 
-        ResultActions resultActions = perform("/product", productRequest, 400, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/product", productRequest, 400, mapper, mockMvc);
 
         String response = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -173,7 +173,7 @@ class ProductControllerTest {
                 1L
         );
 
-        ResultActions resultActions = perform("/product", productRequest, 200, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/product", productRequest, 200, mapper, mockMvc);
 
         List<Product> query = em.createQuery("select p from Product p", Product.class).getResultList();
         assertAll(
@@ -195,7 +195,7 @@ class ProductControllerTest {
                 1L
         );
 
-        ResultActions resultActions = perform("/product", productRequest, 400, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/product", productRequest, 400, mapper, mockMvc);
 
         String response = resultActions.andReturn().getResponse().getContentAsString();
 

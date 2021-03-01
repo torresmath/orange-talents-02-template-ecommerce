@@ -1,6 +1,7 @@
 package com.zup.mercadolivre.category.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zup.mercadolivre.builders.MockMvcBuilder;
 import com.zup.mercadolivre.category.controller.request.CategoryRequest;
 import com.zup.mercadolivre.category.model.Category;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static com.zup.mercadolivre.builders.MockMvcBuilder.perform;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -50,7 +50,7 @@ class CategoryControllerTest {
     void deveriaDevolver403() throws Exception {
 
         CategoryRequest content = new CategoryRequest("categoria", null);
-        ResultActions resultActions = perform("/category", content, 403, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/category", content, 403, mapper, mockMvc);
     }
 
     @Test
@@ -59,7 +59,7 @@ class CategoryControllerTest {
     void deveriaPassarSemIdParent() throws Exception {
 
         CategoryRequest content = new CategoryRequest("categoria", null);
-        ResultActions resultActions = perform("/category", content, 200, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/category", content, 200, mapper, mockMvc);
     }
 
     @Test
@@ -68,7 +68,7 @@ class CategoryControllerTest {
     void deveriaPassarComIdParent() throws Exception {
 
         CategoryRequest content = new CategoryRequest("categoria", 1L);
-        ResultActions resultActions = perform("/category", content, 200, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/category", content, 200, mapper, mockMvc);
 
         List<Category> query = em.createQuery("select c from Category c", Category.class).getResultList();
         Category category = query.get(1);
@@ -87,7 +87,7 @@ class CategoryControllerTest {
     void deveriaDevolver400ComIdParentNotFound() throws Exception {
 
         CategoryRequest content = new CategoryRequest("categoria", 2L);
-        ResultActions resultActions = perform("/category", content, 400, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/category", content, 400, mapper, mockMvc);
 
         List<Category> query = em.createQuery("select c from Category c", Category.class).getResultList();
         Category category = query.get(0);
@@ -106,7 +106,7 @@ class CategoryControllerTest {
     void deveriaDevolver400ComNomeDuplicado() throws Exception {
 
         CategoryRequest content = new CategoryRequest(DEFAULT_CATEGORY, null);
-        ResultActions resultActions = perform("/category", content, 400, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/category", content, 400, mapper, mockMvc);
 
         List<Category> query = em.createQuery("select c from Category c", Category.class).getResultList();
         Category category = query.get(0);

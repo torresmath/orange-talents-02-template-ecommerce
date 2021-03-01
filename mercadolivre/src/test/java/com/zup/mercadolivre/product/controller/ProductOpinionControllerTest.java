@@ -1,6 +1,7 @@
 package com.zup.mercadolivre.product.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zup.mercadolivre.builders.MockMvcBuilder;
 import com.zup.mercadolivre.product.controller.request.ProductOpinionRequest;
 import com.zup.mercadolivre.product.model.ProductOpinion;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +23,6 @@ import javax.transaction.Transactional;
 
 import java.util.List;
 
-import static com.zup.mercadolivre.builders.MockMvcBuilder.perform;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -59,7 +59,7 @@ class ProductOpinionControllerTest {
 
         ProductOpinionRequest request = new ProductOpinionRequest(rating, "Cool", "A description");
 
-        perform("/product/1/opinion", request, 200, mapper, mockMvc);
+        new MockMvcBuilder().perform("/product/1/opinion", request, 200, mapper, mockMvc);
 
         List<ProductOpinion> opinions = manager.createQuery("select o from ProductOpinion o", ProductOpinion.class).getResultList();
 
@@ -80,7 +80,7 @@ class ProductOpinionControllerTest {
 
         ProductOpinionRequest request = new ProductOpinionRequest(rating, "Cool", maxDescription);
 
-        ResultActions perform = perform("/product/1/opinion", request, 400, mapper, mockMvc);
+        ResultActions perform = new MockMvcBuilder().perform("/product/1/opinion", request, 400, mapper, mockMvc);
 
         List<ProductOpinion> opinions = manager.createQuery("select o from ProductOpinion o", ProductOpinion.class).getResultList();
 
@@ -99,7 +99,7 @@ class ProductOpinionControllerTest {
 
         ProductOpinionRequest request = new ProductOpinionRequest(rating, "Cool", "A description");
 
-        ResultActions perform = perform("/product/1/opinion", request, 400, mapper, mockMvc);
+        ResultActions perform = new MockMvcBuilder().perform("/product/1/opinion", request, 400, mapper, mockMvc);
 
         List<ProductOpinion> opinions = manager.createQuery("select o from ProductOpinion o", ProductOpinion.class).getResultList();
 
@@ -117,7 +117,7 @@ class ProductOpinionControllerTest {
 
         ProductOpinionRequest request = new ProductOpinionRequest(3, "Cool", maxDescription + "a");
 
-        ResultActions perform = perform("/product/1/opinion", request, 400, mapper, mockMvc);
+        ResultActions perform = new MockMvcBuilder().perform("/product/1/opinion", request, 400, mapper, mockMvc);
 
         List<ProductOpinion> opinions = manager.createQuery("select o from ProductOpinion o", ProductOpinion.class).getResultList();
 
@@ -135,7 +135,7 @@ class ProductOpinionControllerTest {
 
         ProductOpinionRequest request = new ProductOpinionRequest(3, "Cool", maxDescription);
 
-        ResultActions perform = perform("/product/2/opinion", request, 404, mapper, mockMvc);
+        ResultActions perform = new MockMvcBuilder().perform("/product/2/opinion", request, 404, mapper, mockMvc);
 
         List<ProductOpinion> opinions = manager.createQuery("select o from ProductOpinion o", ProductOpinion.class).getResultList();
 

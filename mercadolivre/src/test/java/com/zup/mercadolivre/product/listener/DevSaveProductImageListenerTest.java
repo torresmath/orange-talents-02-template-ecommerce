@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
@@ -22,7 +23,8 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class DevSaveProductImageListenerTest {
@@ -46,7 +48,11 @@ class DevSaveProductImageListenerTest {
     @DisplayName("Listener deveria salvar imagem")
     void deveriaSalvarImagem() {
 
-        ProductImageRequest request = new ProductImageRequest(Collections.singletonList("url-test"));
+        byte[] mockContent = new byte[0];
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("images", "url-test", "", mockContent);
+
+        ProductImageRequest request = new ProductImageRequest();
+        request.setImages(Collections.singletonList(mockMultipartFile));
 
         listener.handleEvent(request.toEvent(product));
 
@@ -63,12 +69,17 @@ class DevSaveProductImageListenerTest {
     @DisplayName("Listener deveria salvar multiplas imagens")
     void deveriaSalvarImagens() {
 
-        ProductImageRequest request = new ProductImageRequest(Arrays.asList("url-test", "url-test", "url-test"));
+        byte[] mockContent = new byte[0];
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("images", "url-test", "", mockContent);
+        MockMultipartFile mockMultipartFile1 = new MockMultipartFile("images", "url-test", "", mockContent);
+        MockMultipartFile mockMultipartFile2 = new MockMultipartFile("images", "url-test", "", mockContent);
+
+        ProductImageRequest request = new ProductImageRequest();
+        request.setImages(Arrays.asList(mockMultipartFile, mockMultipartFile1, mockMultipartFile2));
 
         listener.handleEvent(request.toEvent(product));
 
         ArgumentCaptor<ProductImage> args = ArgumentCaptor.forClass(ProductImage.class);
-
 
         args.getAllValues()
                 .forEach(arg -> {

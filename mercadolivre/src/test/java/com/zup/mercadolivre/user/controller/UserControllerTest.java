@@ -1,6 +1,7 @@
 package com.zup.mercadolivre.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zup.mercadolivre.builders.MockMvcBuilder;
 import com.zup.mercadolivre.user.controller.request.UserRequest;
 import com.zup.mercadolivre.user.model.User;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 
-import static com.zup.mercadolivre.builders.MockMvcBuilder.perform;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -46,7 +46,7 @@ class UserControllerTest {
 
         UserRequest userRequest = new UserRequest("email@email.com", "123456");
 
-        perform("/user", userRequest, 200, mapper, mockMvc);
+        new MockMvcBuilder().perform("/user", userRequest, 200, mapper, mockMvc);
 
         List<User> query = em.createQuery("select u from User u", User.class).getResultList();
         User user = query.get(2);
@@ -63,7 +63,7 @@ class UserControllerTest {
 
         UserRequest userRequest = new UserRequest("emailemail.com", "123456");
 
-        ResultActions resultActions = perform("/user", userRequest, 400, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/user", userRequest, 400, mapper, mockMvc);
 
         List<User> query = em.createQuery("select u from User u", User.class).getResultList();
         User user = query.get(0);
@@ -82,7 +82,7 @@ class UserControllerTest {
 
         UserRequest userRequest = new UserRequest("email@email.com", "12345");
 
-        ResultActions resultActions = perform("/user", userRequest, 400, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/user", userRequest, 400, mapper, mockMvc);
 
         List<User> query = em.createQuery("select u from User u", User.class).getResultList();
         User user = query.get(0);
@@ -101,7 +101,7 @@ class UserControllerTest {
 
         UserRequest userRequest = new UserRequest(DEFAULT_LOGIN, "123456");
 
-        ResultActions resultActions = perform("/user", userRequest, 400, mapper, mockMvc);
+        ResultActions resultActions = new MockMvcBuilder().perform("/user", userRequest, 400, mapper, mockMvc);
 
         List<User> query = em.createQuery("select u from User u", User.class).getResultList();
         User user = query.get(0);

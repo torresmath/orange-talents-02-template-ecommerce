@@ -30,7 +30,9 @@ public class ProductImageController {
     @PostMapping
     public ResponseEntity<?> create(@PathVariable("id") Long idProduct,
                                     @AuthenticationPrincipal UserDetails loggedUser,
-                                    @RequestBody @Valid ProductImageRequest request) {
+                                    @Valid ProductImageRequest request) {
+
+        request.getImages().forEach(i -> System.out.println("i.getName() = " + i.getName()));
 
         Product product = manager.find(Product.class, idProduct);
 

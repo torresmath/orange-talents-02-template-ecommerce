@@ -29,7 +29,7 @@ public class SaveProductImageListener {
 
         event.getImages()
                 .forEach(img -> {
-                    ProductImage productImage = new ProductImage("prod-" + img, product);
+                    ProductImage productImage = new ProductImage("prod-" + img.getOriginalFilename(), product);
                     manager.persist(productImage);
                 });
     }
