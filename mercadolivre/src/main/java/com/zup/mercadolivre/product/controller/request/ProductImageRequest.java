@@ -23,11 +23,7 @@ public class ProductImageRequest {
         super();
     }
 
-    public ProductImageRequest(List<String> imagesUrls) {
-        this.images = imagesUrls;
-    }
-
-    public void setImages(List<String> images) {
+    public ProductImageRequest(List<String> images) {
         this.images = images;
     }
 
