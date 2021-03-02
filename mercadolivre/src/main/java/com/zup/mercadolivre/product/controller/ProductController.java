@@ -1,10 +1,8 @@
 package com.zup.mercadolivre.product.controller;
 
-import com.zup.mercadolivre.product.controller.request.ProductDetailRequest;
 import com.zup.mercadolivre.product.controller.request.ProductRequest;
 import com.zup.mercadolivre.product.controller.response.ProductViewResponse;
 import com.zup.mercadolivre.product.model.Product;
-import com.zup.mercadolivre.product.model.ProductDetail;
 import com.zup.mercadolivre.user.model.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,8 +13,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
