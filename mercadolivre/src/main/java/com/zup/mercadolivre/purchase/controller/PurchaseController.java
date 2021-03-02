@@ -1,6 +1,7 @@
 package com.zup.mercadolivre.purchase.controller;
 
 import com.zup.mercadolivre.product.Mailing;
+import com.zup.mercadolivre.product.model.Product;
 import com.zup.mercadolivre.purchase.controller.request.PurchaseRequest;
 import com.zup.mercadolivre.purchase.model.Purchase;
 import com.zup.mercadolivre.user.model.User;
@@ -41,6 +42,7 @@ public class PurchaseController {
         User user = (User) loggedUser;
 
         Purchase purchase = request.toModel(user, manager);
+
         manager.persist(purchase);
 
         String returnUrl = purchase.submitPurchase();

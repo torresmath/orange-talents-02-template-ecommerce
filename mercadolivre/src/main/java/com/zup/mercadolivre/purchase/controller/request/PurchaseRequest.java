@@ -1,5 +1,6 @@
 package com.zup.mercadolivre.purchase.controller.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zup.mercadolivre.common.annotations.EnumValue;
 import com.zup.mercadolivre.common.annotations.ExistsId;
 import com.zup.mercadolivre.product.model.Product;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 public class PurchaseRequest {
 
     @ExistsId(domainClass = Product.class)
+    @JsonProperty("id_product")
     private final Long idProduct;
 
     @Min(1)

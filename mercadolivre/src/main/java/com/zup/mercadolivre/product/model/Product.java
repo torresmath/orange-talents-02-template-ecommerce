@@ -2,6 +2,7 @@ package com.zup.mercadolivre.product.model;
 
 import com.zup.mercadolivre.category.model.Category;
 import com.zup.mercadolivre.user.model.User;
+import io.jsonwebtoken.lang.Assert;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
@@ -133,6 +134,14 @@ public class Product {
 
     public <T> Set<T> mapImages(Function<ProductImage, T> mapper) {
         return this.images.stream().map(mapper).collect(Collectors.toSet());
+    }
+
+    public void decreaseAmount(int amount) {
+        Assert.isTrue(amount > 0, "A quantidade a decrementar deve ser maior que zero. Valor: " + amount);
+
+        if (hasAmount(amount)) {
+            this.amount -= amount;
+        }
     }
 
     @Deprecated

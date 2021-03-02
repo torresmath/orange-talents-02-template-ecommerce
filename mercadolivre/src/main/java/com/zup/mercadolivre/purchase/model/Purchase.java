@@ -23,6 +23,7 @@ public class Purchase {
 
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(columnDefinition = "enum('PAGSEGURO', 'PAYPAL')")
     private PaymentGateway gateway;
 
     @ManyToOne
@@ -47,7 +48,8 @@ public class Purchase {
                     @NotNull User buyer) {
 
         Assert.notNull(product, "Impossivel cadastrar compra sem Produto");
-        Assert.notNull(buyer.getUsername(), "Impossivel cadastrar compra sem Comprador");
+        Assert.state(buyer.getUsername() != null && !buyer.getUsername().isBlank(), "Impossivel cadastrar compra sem Comprador");
+        Assert.state(product.hasAmount(amount), "Impossível cadastrar compra com a quantidade solicitada: " + amount);
 
         this.gateway = gateway;
         this.product = product;
@@ -56,6 +58,8 @@ public class Purchase {
 
         this.identifier = UUID.randomUUID().toString();
         this.status = PurchaseStatus.IN_PROGRESS;
+
+        this.product.decreaseAmount(amount);
     }
 
     @Deprecated
@@ -83,5 +87,9 @@ public class Purchase {
 
     public PurchaseStatus getStatus() {
         return status;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 }

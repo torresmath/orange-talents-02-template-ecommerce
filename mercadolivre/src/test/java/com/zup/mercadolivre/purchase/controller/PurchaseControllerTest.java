@@ -2,6 +2,7 @@ package com.zup.mercadolivre.purchase.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zup.mercadolivre.builders.MockMvcBuilder;
+import com.zup.mercadolivre.product.model.Product;
 import com.zup.mercadolivre.purchase.controller.request.PurchaseRequest;
 import com.zup.mercadolivre.purchase.model.Purchase;
 import org.junit.jupiter.api.DisplayName;
@@ -51,9 +52,11 @@ class PurchaseControllerTest {
         new MockMvcBuilder().perform("/purchase", request, 302, mapper, mockMvc);
 
         List<Purchase> purchases = manager.createQuery("select p from Purchase p", Purchase.class).getResultList();
+        Product product = manager.find(Product.class, 1L);
 
         assertAll(
-                () -> assertEquals(2, purchases.size())
+                () -> assertEquals(2, purchases.size()),
+                () -> assertEquals(0, product.getAmount())
         );
     }
 
