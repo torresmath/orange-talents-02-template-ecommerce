@@ -138,4 +138,12 @@ public class Product {
     @Deprecated
     public Product() {
     }
+
+    public boolean outOfStock() {
+        return this.amount == 0;
+    }
+
+    public boolean hasAmount(int amount) {
+        return this.amount >= amount;
+    }
 }

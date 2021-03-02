@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = {ExistsIdValidator.class})
 public @interface ExistsId {
 
-    String message() default "{}";
+    String message() default "_not_found";
     Class<?> domainClass();
 
     Class<?>[] groups() default {};
