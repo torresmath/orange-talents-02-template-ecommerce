@@ -6,10 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -48,7 +45,7 @@ public class Product {
     @NotNull
     User owner;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
     List<ProductDetail> details;
 
     @OneToMany(mappedBy = "product")
@@ -77,6 +74,23 @@ public class Product {
         this.description = description;
         this.category = category;
         this.owner = owner;
+    }
+
+    public Product(@NotNull @NotBlank String name,
+                   @NotNull @DecimalMin("0.01") BigDecimal price,
+                   @Min(0) int amount,
+                   @NotNull @NotBlank @Length(min = 1, max = 1000) String description,
+                   @NotNull Category category,
+                   @NotNull User owner,
+                   @NotEmpty List<ProductDetail> details) {
+
+        this.name = name;
+        this.price = price;
+        this.amount = amount;
+        this.description = description;
+        this.category = category;
+        this.owner = owner;
+        this.details = details;
     }
 
     public User getOwner() {

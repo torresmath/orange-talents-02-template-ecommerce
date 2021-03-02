@@ -1,8 +1,6 @@
 package com.zup.mercadolivre.product.controller.request;
 
-import com.zup.mercadolivre.product.model.Product;
 import com.zup.mercadolivre.product.model.ProductDetail;
-import io.jsonwebtoken.lang.Assert;
 
 import javax.validation.constraints.NotBlank;
 
@@ -26,10 +24,7 @@ public class ProductDetailRequest {
         return description;
     }
 
-    public ProductDetail toModel(Product product) {
-
-        Assert.isTrue(product != null, "Impossível criar detalhes de um produto sem produto");
-
-        return new ProductDetail(name, description, product);
+    public ProductDetail toModel() {
+        return new ProductDetail(name, description);
     }
 }

@@ -1,5 +1,6 @@
 package com.zup.mercadolivre.product.controller;
 
+import com.zup.mercadolivre.product.controller.request.ProductDetailRequest;
 import com.zup.mercadolivre.product.controller.request.ProductRequest;
 import com.zup.mercadolivre.product.controller.response.ProductViewResponse;
 import com.zup.mercadolivre.product.model.Product;
@@ -14,6 +15,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/product")
@@ -43,13 +46,8 @@ public class ProductController {
         productRequest.setOwner(owner);
 
         Product product = productRequest.toModel(manager);
-        manager.persist(product);
 
-        productRequest.getDetails()
-                .forEach(detailRequest -> {
-                    ProductDetail detail = detailRequest.toModel(product);
-                    manager.persist(detail);
-                });
+        manager.persist(product);
 
         return ResponseEntity.ok().build();
     }
