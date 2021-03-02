@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-public class ProductQuestion {
+public class ProductQuestion implements Comparable<ProductQuestion> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class ProductQuestion {
 
     @CreationTimestamp
     @NotNull
-    private LocalDateTime createDate = LocalDateTime.now();
+    private final LocalDateTime createDate = LocalDateTime.now();
 
     @ManyToOne
     @NotNull
@@ -60,5 +60,10 @@ public class ProductQuestion {
 
     public Product getProduct() {
         return product;
+    }
+
+    @Override
+    public int compareTo(ProductQuestion o) {
+        return this.title.compareTo(o.title);
     }
 }

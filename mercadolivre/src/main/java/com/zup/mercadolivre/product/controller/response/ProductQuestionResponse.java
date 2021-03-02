@@ -6,7 +6,7 @@ import com.zup.mercadolivre.product.model.ProductQuestion;
 
 import java.time.LocalDateTime;
 
-public class ProductQuestionResponse {
+public class ProductQuestionResponse implements Comparable<ProductQuestionResponse> {
 
     private final Long id;
 
@@ -34,11 +34,14 @@ public class ProductQuestionResponse {
         return title;
     }
 
-    public String getCustomer() {
-        return customer;
-    }
+    public String getCustomer() { return customer; }
 
     public LocalDateTime getCreateDate() {
         return createDate;
+    }
+
+    @Override
+    public int compareTo(ProductQuestionResponse o) {
+        return this.title.compareTo(o.getTitle());
     }
 }

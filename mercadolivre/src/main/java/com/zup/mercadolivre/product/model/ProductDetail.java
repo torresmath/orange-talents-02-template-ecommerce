@@ -24,4 +24,16 @@ public class ProductDetail {
         this.description = description;
         this.product = product;
     }
+
+    @Deprecated
+    public ProductDetail() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
