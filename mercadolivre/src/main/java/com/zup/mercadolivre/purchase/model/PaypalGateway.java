@@ -2,7 +2,7 @@ package com.zup.mercadolivre.purchase.model;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
-public class PaypalGateway implements Gateway{
+public class PaypalGateway implements Gateway {
     @Override
     public String submitPurchase(Purchase purchase) {
         System.out.println("PAYPAL GATEWAY");

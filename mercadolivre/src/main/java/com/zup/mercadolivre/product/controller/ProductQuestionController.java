@@ -1,6 +1,6 @@
 package com.zup.mercadolivre.product.controller;
 
-import com.zup.mercadolivre.product.Mailing;
+import com.zup.mercadolivre.mailing.Mailing;
 import com.zup.mercadolivre.product.controller.request.ProductQuestionRequest;
 import com.zup.mercadolivre.product.controller.response.ProductQuestionResponse;
 import com.zup.mercadolivre.product.model.Product;

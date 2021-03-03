@@ -1,4 +1,4 @@
-package com.zup.mercadolivre.product;
+package com.zup.mercadolivre.mailing;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
