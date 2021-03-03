@@ -2,6 +2,7 @@ package com.zup.mercadolivre.purchase.model;
 
 import com.zup.mercadolivre.category.model.Category;
 import com.zup.mercadolivre.product.model.Product;
+import com.zup.mercadolivre.purchase.model.enums.PaymentGateway;
 import com.zup.mercadolivre.user.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

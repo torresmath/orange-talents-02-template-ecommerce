@@ -1,4 +1,8 @@
-package com.zup.mercadolivre.purchase.model;
+package com.zup.mercadolivre.purchase.model.enums;
+
+import com.zup.mercadolivre.purchase.model.Gateway;
+import com.zup.mercadolivre.purchase.model.PagSeguroGateway;
+import com.zup.mercadolivre.purchase.model.PaypalGateway;
 
 public enum PaymentGateway {
     PAGSEGURO(new PagSeguroGateway()),

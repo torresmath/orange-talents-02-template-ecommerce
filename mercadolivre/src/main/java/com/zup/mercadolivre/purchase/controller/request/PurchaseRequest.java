@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.zup.mercadolivre.common.annotations.EnumValue;
 import com.zup.mercadolivre.common.annotations.ExistsId;
 import com.zup.mercadolivre.product.model.Product;
-import com.zup.mercadolivre.purchase.model.PaymentGateway;
+import com.zup.mercadolivre.purchase.model.enums.PaymentGateway;
 import com.zup.mercadolivre.purchase.model.Purchase;
 import com.zup.mercadolivre.user.model.User;
 import org.springframework.util.Assert;
