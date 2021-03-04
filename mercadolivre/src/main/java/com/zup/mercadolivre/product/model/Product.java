@@ -155,4 +155,6 @@ public class Product {
     public boolean hasAmount(int amount) {
         return this.amount >= amount;
     }
+
+    public Long getOwnerId() { return owner.getId(); }
 }

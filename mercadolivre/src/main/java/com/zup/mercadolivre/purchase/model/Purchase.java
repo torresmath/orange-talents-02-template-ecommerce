@@ -90,6 +90,8 @@ public class Purchase {
     @Deprecated
     public Purchase() {}
 
+    public Long getId() { return id; }
+
     public PaymentGateway getGateway() {
         return gateway;
     }
@@ -98,9 +100,7 @@ public class Purchase {
         return identifier;
     }
 
-    public String submitPurchase() {
-        return this.gateway.getGateway().submitPurchase(this);
-    }
+    public int getAmount() { return amount; }
 
     public String getOwnerEmail() {
         return product.getOwnerEmail();
@@ -148,6 +148,10 @@ public class Purchase {
         return result;
     }
 
+    public String submitPurchase() {
+        return this.gateway.getGateway().submitPurchase(this);
+    }
+
     public boolean isDone() {
         return this.status.equals(PurchaseStatus.DONE);
     }
@@ -161,4 +165,8 @@ public class Purchase {
 
         return !successfulTransactions.isEmpty();
     }
+
+    public Long getBuyerId() { return buyer.getId(); }
+
+    public Long getOwnerId() { return product.getOwnerId(); }
 }
